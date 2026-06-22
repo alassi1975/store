@@ -1,0 +1,254 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #F5F5F5;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.login-wrapper {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Decorative Circles */
+.deco-circle {
+    position: fixed;
+    border-radius: 50%;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.deco-circle--1 {
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(0,102,204,0.08) 0%, transparent 70%);
+    top: -200px;
+    right: -150px;
+}
+
+.deco-circle--2 {
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(0,102,204,0.06) 0%, transparent 70%);
+    bottom: -100px;
+    left: -100px;
+}
+
+.deco-circle--3 {
+    width: 200px;
+    height: 200px;
+    border: 30px solid rgba(0,102,204,0.06);
+    top: 15%;
+    left: 8%;
+}
+
+.deco-circle--4 {
+    width: 120px;
+    height: 120px;
+    background: rgba(0,102,204,0.04);
+    bottom: 25%;
+    right: 10%;
+}
+
+/* Card */
+.login-card {
+    position: relative;
+    z-index: 1;
+    background: #FFFFFF;
+    border-radius: 32px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 24px rgba(0, 102, 204, 0.06);
+    width: 420px;
+    max-width: 100%;
+    padding: 48px 40px 40px;
+    animation: fadeUp 0.6s ease;
+}
+
+.brand {
+    text-align: center;
+    margin-bottom: 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.login-logo {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    border: 3px solid rgba(0,102,204,0.15);
+    box-shadow: 0 4px 20px rgba(0,102,204,0.15);
+    object-fit: cover;
+    margin-bottom: 8px;
+}
+
+.brand span {
+    font-size: 28px;
+    font-weight: 700;
+    color: #0066CC;
+    letter-spacing: -0.5px;
+}
+
+.brand .brand-sub {
+    font-size: 14px;
+    font-weight: 500;
+    color: #8E8EA0;
+}
+
+.form-panel {
+    display: block;
+}
+
+.form-title {
+    font-size: 26px;
+    font-weight: 700;
+    color: #1A1A2E;
+    margin-bottom: 6px;
+}
+
+.form-subtitle {
+    font-size: 14px;
+    color: #8E8EA0;
+    margin-bottom: 28px;
+}
+
+/* Input */
+.input-group {
+    position: relative;
+    margin-bottom: 16px;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 2;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 14px 14px 14px 46px;
+    font-size: 14px;
+    font-family: inherit;
+    border: 2px solid #E8E8F0;
+    border-radius: 14px;
+    outline: none;
+    background: #FAFAFE;
+    color: #1A1A2E;
+    transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+}
+
+.input-group input::placeholder {
+    color: #B0B0C0;
+}
+
+.input-group input:focus {
+    border-color: #0066CC;
+    box-shadow: 0 0 0 4px rgba(0, 102, 204, 0.10);
+    background: #FFFFFF;
+}
+
+.input-group input:hover:not(:focus) {
+    border-color: #C8C8D8;
+}
+
+/* Error */
+.error-msg {
+    color: #E74C3C;
+    font-size: 13px;
+    margin-bottom: 16px;
+    display: none;
+}
+
+/* Button */
+.btn-signin {
+    width: 100%;
+    padding: 14px;
+    font-size: 15px;
+    font-weight: 600;
+    font-family: inherit;
+    border: none;
+    border-radius: 14px;
+    background: #0066CC;
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.15s, box-shadow 0.25s;
+    margin-bottom: 20px;
+}
+
+.btn-signin:hover {
+    background: #0052A3;
+    box-shadow: 0 8px 24px rgba(0, 102, 204, 0.30);
+    transform: translateY(-1px);
+}
+
+.btn-signin:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+/* Register */
+.register-area {
+    text-align: left;
+}
+
+.register-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: #0066CC;
+    text-decoration: none;
+    transition: color 0.2s;
+    cursor: pointer;
+}
+
+.register-link:hover {
+    color: #0052A3;
+    text-decoration: underline;
+}
+
+/* Animation */
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(24px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .login-card {
+        padding: 36px 24px 32px;
+        border-radius: 24px;
+    }
+    .brand {
+        font-size: 24px;
+    }
+    .form-title {
+        font-size: 22px;
+    }
+    .deco-circle--1 { width: 300px; height: 300px; top: -100px; right: -100px; }
+    .deco-circle--2 { width: 250px; height: 250px; }
+}

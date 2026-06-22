@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>التقارير - نظام إدارة المخزون</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <img src="../logo.png" alt="Logo" class="logo-sm">
+                    <h2>مستشفى شهداء الأقصى</h2>
+                    <p>نظام إدارة المخزون</p>
+                </div>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item" data-page="المخزون"><span class="emoji-icon">📦</span><span>المخزون</span></a>
+                <a href="#" class="nav-item" data-page="الوارد-الإضافة"><span class="emoji-icon">📥</span><span>الوارد / الإضافة</span></a>
+                <a href="#" class="nav-item" data-page="الصادر-المنصرف"><span class="emoji-icon">📤</span><span>الصادر / المنصرف</span></a>
+                <a href="#" class="nav-item" data-page="الإعارة"><span class="emoji-icon">🤝</span><span>الإعارة</span></a>
+                <a href="#" class="nav-item" data-page="الأمانات"><span class="emoji-icon">🛡️</span><span>الأمانات</span></a>
+                <a href="#" class="nav-item" data-page="الكهنة"><span class="emoji-icon">🙏</span><span>الكهنة</span></a>
+                <a href="#" class="nav-item active" data-page="التقارير"><span class="emoji-icon">📊</span><span>التقارير</span></a>
+            </nav>
+            <div class="sidebar-footer">
+                <button class="sidebar-collapse" id="sidebarCollapse" onclick="app.toggleSidebar()" title="طي القائمة">◀</button>
+                <p>جميع الحقوق محفوظة &copy; 2026</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <button class="menu-toggle" id="menuToggle"><span class="emoji-icon">☰</span></button>
+                <div class="topbar-title"><h1 id="pageTitle">التقارير</h1></div>
+                <div class="topbar-actions">
+                    <div class="date-box day-box"><span class="date-icon">📅</span><span class="date-text" id="dayDisplay"></span></div>
+                    <div class="date-box date-full-box"><span class="date-icon">🗓️</span><span class="date-text" id="dateDisplay"></span></div>
+                    <div class="date-box time-box"><span class="date-icon">⏰</span><span class="date-text" id="timeDisplay"></span></div>
+                    <span class="emoji-icon" style="font-size:1.4em;cursor:default" id="userDisplay"></span>
+                    <button class="btn btn-sm btn-secondary" onclick="app.logout()"><span class="emoji-icon">🚪</span> خروج</button>
+                </div>
+            </header>
+
+            <div class="content">
+                <div id="reportsPage" class="page active">
+                    <div class="card">
+                        <div class="card-header"><h3><span class="emoji-icon">📊</span> تقارير المخزون</h3></div>
+                        <div class="card-body">
+                            <div class="toolbar">
+                                <select id="reportType" class="form-input" style="flex:1;min-width:150px;padding:9px 12px;border:2px solid var(--gray-200);border-radius:var(--radius-sm);outline:none">
+                                    <option value="movement">حركة الأصناف (وارد + صادر)</option>
+                                    <option value="inventory">تقرير المخزون العام</option>
+                                    <option value="incoming">تقرير الوارد</option>
+                                    <option value="outgoing">تقرير الصادر</option>
+                                    <option value="lowStock">الأصناف منخفضة المخزون</option>
+                                </select>
+                                <button class="btn btn-primary" onclick="app.generateReport()"><span class="emoji-icon">📋</span> عرض التقرير</button>
+                                <button class="btn btn-success" onclick="app.exportReport()"><span class="emoji-icon">📥</span> تصدير Excel</button>
+                            </div>
+                            <div id="reportContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="deleteModal">
+        <div class="modal-content modal-sm">
+            <div class="modal-header"><h3><span class="emoji-icon">⚠️</span> تأكيد الحذف</h3><button class="modal-close" onclick="app.closeDeleteModal()">✕</button></div>
+            <div class="modal-body"><p id="deleteMessage">هل أنت متأكد من حذف هذا العنصر؟</p></div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="app.closeDeleteModal()">إلغاء</button>
+                <button class="btn btn-danger" onclick="app.confirmDelete()">حذف</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/xlsx.full.min.js"></script>
+    <script src="../js/shared.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
