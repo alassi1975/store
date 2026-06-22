@@ -242,7 +242,6 @@ class SharedApp {
             a.href = '#';
             a.className = 'nav-item';
             a.id = 'navUsers';
-            a.dataset.page = 'users';
             a.innerHTML = '<span class="emoji-icon">👥</span><span>المستخدمين</span>';
             a.addEventListener('click', (e) => {
                 e.preventDefault();
