@@ -26,6 +26,13 @@ class InventoryApp extends SharedApp {
             const items = q ? this.data.inventory.filter(i => i.name.toLowerCase().includes(q) || i.code.toLowerCase().includes(q)) : this.data.inventory;
             this.renderInventory(items);
         });
+
+        const invBtn = document.getElementById('importInventoryBtn');
+        const invInput = document.getElementById('excelInventoryInput');
+        if (invBtn && invInput) {
+            invBtn.addEventListener('click', () => invInput.click());
+            invInput.addEventListener('change', (e) => this.importExcel('inventory', e.target));
+        }
     }
 
     renderInventory(items) {
@@ -35,6 +42,8 @@ class InventoryApp extends SharedApp {
         }
         const tbody = document.getElementById('inventoryBody');
         const empty = document.getElementById('inventoryEmpty');
+
+        document.getElementById('inventoryCount').textContent = `إجمالي الأصناف: ${items.length}`;
 
         if (items.length === 0) {
             tbody.innerHTML = '';
@@ -47,6 +56,7 @@ class InventoryApp extends SharedApp {
             const remaining = item.openingBalance + item.incoming - item.outgoing;
             const rowClass = remaining <= 0 ? 'style="background:#fce8e6"' : remaining < 10 ? 'style="background:#fef7e0"' : '';
             return `<tr ${rowClass}>
+                <td><input type="checkbox" class="item-checkbox" value="${item.id}"></td>
                 <td><strong>${item.code}</strong></td>
                 <td>${item.ministryCode || '—'}</td>
                 <td>${item.name}</td>
@@ -92,12 +102,7 @@ class InventoryApp extends SharedApp {
         this.populateCategories('invCategory', selectedCat);
         this.populateTypes('invType', selectedType);
 
-        if (!id) {
-            document.getElementById('invCode').value = this.data.nextCode;
-            document.getElementById('invCode').readOnly = true;
-        } else {
-            document.getElementById('invCode').readOnly = false;
-        }
+        document.getElementById('invCode').value = id ? (this.data.inventory.find(i => i.id === id)?.code || this.data.nextCode) : this.data.nextCode;
 
         if (id) {
             const item = this.data.inventory.find(i => i.id === id);
@@ -134,15 +139,14 @@ class InventoryApp extends SharedApp {
             notes: document.getElementById('invNotes').value.trim(),
         };
 
-        if (!data.code || !data.name) { alert('يرجى إدخال كود واسم الصنف'); return; }
+        if (!data.name) { alert('يرجى إدخال اسم الصنف'); return; }
 
         if (id) {
             const idx = this.data.inventory.findIndex(i => i.id === id);
             if (idx !== -1) this.data.inventory[idx] = { ...this.data.inventory[idx], ...data };
         } else {
             data.id = this.getNextId('inventory');
-            const exists = this.data.inventory.some(i => i.code === data.code);
-            if (exists) data.code = String(this.data.nextCode);
+            data.code = String(this.data.nextCode);
             this.data.inventory.push(data);
             this.data.nextCode++;
         }
@@ -154,6 +158,19 @@ class InventoryApp extends SharedApp {
 
     editInventory(id) {
         this.openInventoryModal(id);
+    }
+
+    toggleSelectAll(checked) {
+        document.querySelectorAll('.item-checkbox').forEach(cb => cb.checked = checked);
+    }
+
+    deleteSelected() {
+        const selected = [...document.querySelectorAll('.item-checkbox:checked')].map(cb => cb.value);
+        if (selected.length === 0) { alert('لم يتم تحديد أي أصناف'); return; }
+        if (!confirm(`هل أنت متأكد من حذف ${selected.length} صنف؟`)) return;
+        this.data.inventory = this.data.inventory.filter(i => !selected.includes(i.id));
+        this.saveAll();
+        this.renderInventory();
     }
 }
 

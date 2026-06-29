@@ -32,6 +32,13 @@ class IncomingApp extends SharedApp {
             const items = q ? this.data.incoming.filter(i => i.itemName.toLowerCase().includes(q) || i.itemCode.toLowerCase().includes(q)) : this.data.incoming;
             this.renderIncoming(items);
         });
+
+        const incBtn = document.getElementById('importIncomingBtn');
+        const incInput = document.getElementById('excelIncomingInput');
+        if (incBtn && incInput) {
+            incBtn.addEventListener('click', () => incInput.click());
+            incInput.addEventListener('change', (e) => this.importExcel('incoming', e.target));
+        }
     }
 
     renderIncoming(items) {

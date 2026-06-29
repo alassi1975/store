@@ -741,6 +741,11 @@ class SharedApp {
         const file = input.files[0];
         if (!file) return;
 
+        if (typeof XLSX === 'undefined') {
+            alert('مكتبة Excel غير متوفرة، يرجى التحقق من اتصال الإنترنت');
+            return;
+        }
+
         const reader = new FileReader();
         reader.onload = (e) => {
             try {
@@ -753,8 +758,14 @@ class SharedApp {
 
                 const rows = json.slice(1);
 
+                const existing = this.data[type] || [];
+                const nums = existing.map(i => parseInt(i.id.replace(/[^0-9]/g, ''))).filter(n => !isNaN(n));
+                const prefix = type === 'inventory' ? 'i' : type === 'incoming' ? 'inc' : type === 'outgoing' ? 'out' : type === 'loan' ? 'l' : type === 'loanIncoming' ? 'li' : type === 'loanOutgoing' ? 'lo' : type === 'amanat' ? 'a' : type === 'amanatIncoming' ? 'ai' : type === 'amanatOutgoing' ? 'ao' : 'p';
+                let baseId = Math.max(0, ...nums);
+
                 const imported = rows.map(row => {
-                    const obj = { id: this.getNextId(type) };
+                    baseId++;
+                    const obj = { id: `${prefix}${baseId}` };
 
                     if (type === 'inventory') {
                         obj.code = row[0] ? String(row[0]) : `AUTO${Date.now()}`;
@@ -837,7 +848,7 @@ class SharedApp {
                     }
 
                     return obj;
-                }).filter(obj => obj.name || obj.code);
+                }).filter(obj => obj.name || obj.code || obj.itemName || obj.itemCode);
 
                 if (imported.length === 0) { alert('لم يتم استيراد أي بيانات'); return; }
 
@@ -846,12 +857,13 @@ class SharedApp {
                 this.renderCurrentPage();
                 alert(`تم استيراد ${imported.length} سجل بنجاح`);
             } catch (err) {
-                alert('حدث خطأ أثناء قراءة الملف');
+                alert('حدث خطأ أثناء قراءة الملف: ' + err.message);
                 console.error(err);
+            } finally {
+                input.value = '';
             }
         };
         reader.readAsArrayBuffer(file);
-        input.value = '';
     }
 
     /* === Selects === */

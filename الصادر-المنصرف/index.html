@@ -54,8 +54,8 @@
                             <div class="toolbar">
                                 <button class="btn btn-primary" id="addOutgoingBtn" data-perm="الصادر - إضافة"><span class="emoji-icon">➕</span> إضافة صادر جديد</button>
                                 <button class="btn btn-success" onclick="app.exportTable('outgoing')" data-perm="تصدير Excel"><span class="emoji-icon">📊</span> تصدير Excel</button>
-                                <button class="btn btn-secondary" onclick="document.getElementById('excelOutgoingInput').click()"><span class="emoji-icon">📤</span> رفع Excel</button>
-                                <input type="file" id="excelOutgoingInput" accept=".xlsx,.xls" style="display:none" onchange="app.importExcel('outgoing', this)">
+                                <button class="btn btn-secondary" id="importOutgoingBtn"><span class="emoji-icon">📤</span> رفع Excel</button>
+                                <input type="file" id="excelOutgoingInput" accept=".xlsx,.xls" style="display:none">
                                 <div class="toolbar-search"><span class="emoji-icon">🔍</span><input type="text" id="outgoingSearch" placeholder="بحث..."></div>
                             </div>
                             <div class="table-wrapper">
@@ -193,7 +193,7 @@
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+    <script src="../js/xlsx.full.min.js"></script>
     <script src="../js/shared.js"></script>
     <script src="app.js"></script>
 </body>

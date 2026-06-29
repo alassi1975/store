@@ -74,21 +74,25 @@
             <div class="content">
                 <section class="page active" id="page-inventory">
                     <div class="card">
-                        <div class="card-header">
+                        <div class="card-header" style="display:flex;align-items:center;justify-content:space-between">
                             <h3><span class="emoji-icon">📋</span> جدول الأرصدة والبيانات الأساسية</h3>
+                            <span id="inventoryCount" style="font-size:13px;color:var(--gray-500);font-weight:500"></span>
                         </div>
                         <div class="card-body">
                             <div class="toolbar">
                                 <button class="btn btn-primary" id="addInventoryBtn" data-perm="المخزون - إضافة">
                                     <span class="emoji-icon">➕</span> إضافة صنف جديد
                                 </button>
+                                <button class="btn btn-danger" id="deleteSelectedBtn" onclick="app.deleteSelected()" data-perm="المخزون - حذف">
+                                    <span class="emoji-icon">🗑️</span> حذف المحدد
+                                </button>
                                 <button class="btn btn-success" onclick="app.exportTable('inventory')" data-perm="تصدير Excel">
                                     <span class="emoji-icon">📊</span> تصدير Excel
                                 </button>
-                                <button class="btn btn-secondary" onclick="document.getElementById('excelInventoryInput').click()">
+                                <button class="btn btn-secondary" id="importInventoryBtn">
                                     <span class="emoji-icon">📤</span> رفع Excel
                                 </button>
-                                <input type="file" id="excelInventoryInput" accept=".xlsx,.xls" style="display:none" onchange="app.importExcel('inventory', this)">
+                                <input type="file" id="excelInventoryInput" accept=".xlsx,.xls" style="display:none">
                                 <div class="toolbar-search">
                                     <span class="emoji-icon">🔍</span>
                                     <input type="text" id="inventorySearch" placeholder="بحث...">
@@ -98,6 +102,7 @@
                                 <table class="table">
                                     <thead>
                                         <tr>
+                                            <th style="width:40px"><input type="checkbox" id="selectAll" onchange="app.toggleSelectAll(this.checked)"></th>
                                             <th>كود الصنف</th>
                                             <th>كود وزارة</th>
                                             <th>اسم الصنف</th>
@@ -143,7 +148,7 @@
                     <div class="form-row">
                         <div class="form-group">
                             <label>كود الصنف <span class="required">*</span></label>
-                            <input type="text" id="invCode" required>
+                            <input type="text" id="invCode" readonly style="background:var(--gray-100);cursor:not-allowed">
                         </div>
                         <div class="form-group">
                             <label>كود وزارة</label>
